@@ -163,17 +163,19 @@ public class SwipeStack extends ViewGroup {
             return;
         }
 
-        mCurrentViewIndex = 0;
-        removeAllViewsInLayout();
+        //mCurrentViewIndex = 0;
+        //removeAllViewsInLayout();
         for (int x = getChildCount();
              x < mNumberOfStackedViews && mCurrentViewIndex < mAdapter.getCount();
              x++) {
             addNextView();
         }
 
-        //reAddTopView();
+
 
         reorderItems();
+
+        reAddTopView();
 
 //        final int index = indexOfChild(getTopView());
 //        removeView(getTopView());
@@ -186,24 +188,24 @@ public class SwipeStack extends ViewGroup {
     }
 
     private void reAddTopView() {
-        if(getTopView() != null) {
+        if(getTopView() != null && mCurrentViewIndex-DEFAULT_STACK_SIZE > 0) {
+
             removeView(getTopView());
-            mCurrentViewIndex = mCurrentViewIndex -1;
-            View bottomView = mAdapter.getView(mCurrentViewIndex, null, this);
-            bottomView.setTag(R.id.new_view, false);
+            View topView = mAdapter.getView(mCurrentViewIndex-DEFAULT_STACK_SIZE, null, this);
+            topView.setTag(R.id.new_view, false);
 
             if (!mDisableHwAcceleration) {
-                bottomView.setLayerType(LAYER_TYPE_HARDWARE, null);
+                topView.setLayerType(LAYER_TYPE_HARDWARE, null);
             }
 
             if (mViewRotation > 0) {
-                bottomView.setRotation(mRandom.nextInt(mViewRotation) - (mViewRotation / 2));
+                topView.setRotation(mRandom.nextInt(mViewRotation) - (mViewRotation / 2));
             }
 
             int width = getWidth() - (getPaddingLeft() + getPaddingRight());
             int height = getHeight() - (getPaddingTop() + getPaddingBottom());
 
-            LayoutParams params = bottomView.getLayoutParams();
+            LayoutParams params = topView.getLayoutParams();
             if (params == null) {
                 params = new LayoutParams(
                         FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -221,8 +223,8 @@ public class SwipeStack extends ViewGroup {
                 measureSpecHeight = MeasureSpec.EXACTLY;
             }
 
-            bottomView.measure(measureSpecWidth | width, measureSpecHeight | height);
-            addViewInLayout(bottomView, 0, params, true);
+            topView.measure(measureSpecWidth | width, measureSpecHeight | height);
+            addViewInLayout(topView, getChildCount()-1, params, true);
 
             //mCurrentViewIndex++;
         }
