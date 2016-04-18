@@ -165,13 +165,23 @@ public class SwipeStack extends ViewGroup {
 
         //mCurrentViewIndex = 0;
         //removeAllViewsInLayout();
-        for (int x = getChildCount();
-             x < mNumberOfStackedViews && mCurrentViewIndex < mAdapter.getCount();
-             x++) {
-            addNextView();
+        if(getChildCount() == mNumberOfStackedViews) {
+            mCurrentViewIndex = mCurrentViewIndex - DEFAULT_STACK_SIZE > 0 ? mCurrentViewIndex - DEFAULT_STACK_SIZE : 0;
+            removeAllViewsInLayout();
+            for (int x = getChildCount();
+                 x < mNumberOfStackedViews && mCurrentViewIndex < mAdapter.getCount();
+                 x++) {
+                addNextView();
+            }
+        } else {
+            for (int x = getChildCount();
+                 x < mNumberOfStackedViews && mCurrentViewIndex < mAdapter.getCount();
+                 x++) {
+                addNextView();
+            }
         }
 
-        reAddTopView();
+        //reAddTopView();
 
 
         reorderItems();
@@ -224,7 +234,7 @@ public class SwipeStack extends ViewGroup {
             }
 
             topView.measure(measureSpecWidth | width, measureSpecHeight | height);
-            addViewInLayout(topView, getChildCount()-1, params, true);
+            addViewInLayout(topView, getChildCount() - 1, params, true);
             removeView(getTopView());
 
             //mCurrentViewIndex++;
