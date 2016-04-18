@@ -174,8 +174,9 @@ public class SwipeStack extends ViewGroup {
         final int index = indexOfChild(getTopView());
         removeView(getTopView());
         View newView = mAdapter.getView(mCurrentViewIndex, null, this);
+        newView.setTag(R.id.new_view, false);
         addView(newView, index);
-        mTopView = newView; 
+        mTopView = newView;
 
         mIsFirstLayout = false;
     }
