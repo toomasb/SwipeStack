@@ -186,6 +186,7 @@ public class SwipeStack extends ViewGroup {
     private void reAddTopView() {
         if(getTopView() != null) {
             removeView(getTopView());
+            mCurrentViewIndex = mCurrentViewIndex -1;
             View bottomView = mAdapter.getView(mCurrentViewIndex, null, this);
             bottomView.setTag(R.id.new_view, true);
 
