@@ -202,7 +202,7 @@ public class SwipeStack extends ViewGroup {
 
 
             View topView = mAdapter.getView(mCurrentViewIndex-DEFAULT_STACK_SIZE, null, this);
-            topView.setTag(R.id.new_view, false);
+            //topView.setTag(R.id.new_view, false);
 
             if (!mDisableHwAcceleration) {
                 topView.setLayerType(LAYER_TYPE_HARDWARE, null);
@@ -245,7 +245,7 @@ public class SwipeStack extends ViewGroup {
     private void addNextView() {
         if (mCurrentViewIndex < mAdapter.getCount()) {
             View bottomView = mAdapter.getView(mCurrentViewIndex, null, this);
-            bottomView.setTag(R.id.new_view, true);
+            //bottomView.setTag(R.id.new_view, true);
 
             if (!mDisableHwAcceleration) {
                 bottomView.setLayerType(LAYER_TYPE_HARDWARE, null);
@@ -302,7 +302,7 @@ public class SwipeStack extends ViewGroup {
                 childView.setTranslationZ(x);
             }
 
-            boolean isNewView = (boolean) childView.getTag(R.id.new_view);
+            //boolean isNewView = (boolean) childView.getTag(R.id.new_view);
             float scaleFactor = (float) Math.pow(mScaleFactor, getChildCount() - x);
 
             if (x == topViewIndex) {
@@ -313,23 +313,23 @@ public class SwipeStack extends ViewGroup {
 
             if (!mIsFirstLayout) {
 
-                if (isNewView) {
-                    childView.setTag(R.id.new_view, false);
-                    childView.setAlpha(0);
+                //if (isNewView) {
+                    //childView.setTag(R.id.new_view, false);
+                    //childView.setAlpha(0);
                     childView.setY(newPositionY);
                     childView.setScaleY(scaleFactor);
                     childView.setScaleX(scaleFactor);
-                }
+                //}
 
-                childView.animate()
-                        .y(newPositionY)
-                        .scaleX(scaleFactor)
-                        .scaleY(scaleFactor)
-                        .alpha(1)
-                        .setDuration(mAnimationDuration);
+//                childView.animate()
+//                        .y(newPositionY)
+//                        .scaleX(scaleFactor)
+//                        .scaleY(scaleFactor)
+//                        .alpha(1)
+//                        .setDuration(mAnimationDuration);
 
             } else {
-                childView.setTag(R.id.new_view, false);
+                //childView.setTag(R.id.new_view, false);
                 childView.setY(newPositionY);
                 childView.setScaleY(scaleFactor);
                 childView.setScaleX(scaleFactor);
