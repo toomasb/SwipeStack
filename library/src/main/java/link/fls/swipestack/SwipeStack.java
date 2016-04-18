@@ -169,16 +169,61 @@ public class SwipeStack extends ViewGroup {
             addNextView();
         }
 
+        reAddTopView();
+
         reorderItems();
 
-        final int index = indexOfChild(getTopView());
-        removeView(getTopView());
-        View newView = mAdapter.getView(mCurrentViewIndex, null, this);
-        newView.setTag(R.id.new_view, false);
-        addView(newView, index);
-        mTopView = newView;
+//        final int index = indexOfChild(getTopView());
+//        removeView(getTopView());
+//        View newView = mAdapter.getView(mCurrentViewIndex, null, this);
+//        newView.setTag(R.id.new_view, false);
+//        addView(newView, index);
+//        mTopView = newView;
 
         mIsFirstLayout = false;
+    }
+
+    private void reAddTopView() {
+        if(getTopView() != null) {
+            removeView(getTopView());
+            View bottomView = mAdapter.getView(mCurrentViewIndex, null, this);
+            bottomView.setTag(R.id.new_view, true);
+
+            if (!mDisableHwAcceleration) {
+                bottomView.setLayerType(LAYER_TYPE_HARDWARE, null);
+            }
+
+            if (mViewRotation > 0) {
+                bottomView.setRotation(mRandom.nextInt(mViewRotation) - (mViewRotation / 2));
+            }
+
+            int width = getWidth() - (getPaddingLeft() + getPaddingRight());
+            int height = getHeight() - (getPaddingTop() + getPaddingBottom());
+
+            LayoutParams params = bottomView.getLayoutParams();
+            if (params == null) {
+                params = new LayoutParams(
+                        FrameLayout.LayoutParams.WRAP_CONTENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT);
+            }
+
+            int measureSpecWidth = MeasureSpec.AT_MOST;
+            int measureSpecHeight = MeasureSpec.AT_MOST;
+
+            if (params.width == LayoutParams.MATCH_PARENT) {
+                measureSpecWidth = MeasureSpec.EXACTLY;
+            }
+
+            if (params.height == LayoutParams.MATCH_PARENT) {
+                measureSpecHeight = MeasureSpec.EXACTLY;
+            }
+
+            bottomView.measure(measureSpecWidth | width, measureSpecHeight | height);
+            addViewInLayout(bottomView, 0, params, true);
+
+            //mCurrentViewIndex++;
+        }
+
     }
 
     private void addNextView() {
