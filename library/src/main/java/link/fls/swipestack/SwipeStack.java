@@ -508,6 +508,10 @@ public class SwipeStack extends ViewGroup {
         void onStackEmpty();
     }
 
+    public void resetViewIndex() {
+        mCurrentViewIndex = 0;
+    }
+
     /**
      * Interface definition for a callback to be invoked when the user
      * starts / stops interacting with the top view of the stack.
