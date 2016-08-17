@@ -36,6 +36,7 @@ public class SwipeStack extends ViewGroup {
     public static final int SWIPE_DIRECTION_BOTH = 0;
     public static final int SWIPE_DIRECTION_ONLY_LEFT = 1;
     public static final int SWIPE_DIRECTION_ONLY_RIGHT = 2;
+    public static final int SWIPE_DIRECTION_NONE = -1;
 
     public static final int DEFAULT_ANIMATION_DURATION = 300;
     public static final int DEFAULT_STACK_SIZE = 3;
